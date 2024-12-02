@@ -1,7 +1,11 @@
 #!/bin/bash
 clear
 
-ghc one.hs -o one.out
+# Haskell
+#ghc one.hs -o one.out
+#run=./one.out
+# Lean
+run="lean --run one.lean"
 
 test_cases=(
     "1 2 3\n1 2 3"
@@ -25,14 +29,13 @@ fi
 
 for i in ${!test_cases[@]}; do
     test_case="${test_cases[$i]}"
-    output=$(./one.out < <(echo -e "$test_case"))
+    output=$(${run} < <(echo -e "$test_case"))
     if [[ $verbose == true ]]; then
         echo "Test $((i+1))"
         echo "Input:"
         echo -e "$test_case"
         echo "Output:"
         echo "$output"
-        echo "-----------------------"
     fi
     if [[ "$output" == "${expected[$i]}" ]]; then
         echo -e "${GREEN}PASS${DEFAULT} Test $((i+1))"
@@ -43,4 +46,5 @@ for i in ${!test_cases[@]}; do
         echo "Got:"
         echo "$output"
     fi
+    echo "-----------------------"
 done
