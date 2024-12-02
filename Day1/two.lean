@@ -3,7 +3,7 @@
 --    problem: two - AoC2024
 --    created: 02.December.2024 14:42:07
 --
-import Std.Data.HashMap.Basic
+import Lean.Data.HashMap
 
 open IO List Std
 
@@ -28,14 +28,25 @@ partial def readCols : IO ((List Int × List  Int)) := do
     return ([],[])
   loop
 
+abbrev HM := HashMap Int Int
+
 -- Iterate on list, update on hashmap
-def tally : List Int → HashMap Int Int
-| [] => HashMap.empty
+def tally' : List Int → HM
+| [] => .empty
 | x::xs =>
-  let tr := tally xs
-  tr.insert x (tr.getD x 0+1)
+  let tr := tally' xs
+  tr.insert x (tr.getD x 0 + 1)
+
+-- Using State Monad
+def tally : List Int → StateM HM Unit
+| [] => return
+| x::xs => do
+  tally xs
+  let tr ← get
+  set <| tr.insert x (tr.getD x 0 + 1)
 
 def main : IO Unit := do
   let (l1,l2) ← readCols
-  let tl : HashMap Int Int := tally l2
+  -- let tl : HashMap Int Int := tally' l2
+  let tl : HashMap Int Int := StateT.run  (tally l2) HashMap.empty |>.2
   println <| l1.map (λ x => x * tl.getD x 0) |>.sum
