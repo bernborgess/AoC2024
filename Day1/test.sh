@@ -2,14 +2,14 @@
 clear
 
 # Haskell
-#ghc one.hs -o one.out
-#run=./one.out
+ghc one.hs -o one.out
+run=./one.out
 
 # Lean
 #run="lean --run one.lean"
 
 # Python
-run="python3 one.py"
+#run="python3 one.py"
 
 # C
 #gcc one.c -o one.out

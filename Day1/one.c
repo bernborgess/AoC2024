@@ -1,39 +1,46 @@
 #include <stdio.h>
-// #include <stdlib.h>
+#include <stdlib.h>
 #include <string.h>
 #define MAX 1024
 
-int* get_list() {
-  char buf[MAX];
-  fgets(buf, MAX, stdin);
-  // counts elements
-  int len = strlen(buf);
-  int gaps = 0, was = 1;
-  for (int i = 0; i < len; i++) {
-    if (buf[i] != ' ') {
-      was = 1;
-      continue;
-    }
-    if (was) {
-      gaps++;
-      was = 0;
-    }
-  }
-
-  // List with as many ints as there are gaps
-
-  // read int for each gap
-  for (int i = 0; i < gaps; i++) {
-  }
-}
+int cmp(const void *a, const void *b) { return (*(int *)a - *(int *)b); }
 
 int main() {
-  // read list 1
-  int* list1 = get_list();
+  char buf[MAX];
+  int idx = 0, size = 100;
+  int *l1 = malloc(size * sizeof(int));
+  int *l2 = malloc(size * sizeof(int));
 
-  // read list 2
-  // sort list 1
-  // sort list 2
+  while (fgets(buf, MAX, stdin) != NULL) {
+    int x, y;
+    sscanf(buf, "%d %d", &x, &y);
+    if (idx == size) {
+      size *= 2;
+      int *temp = realloc(l1, size * sizeof(int));
+      if (!temp) exit(1);
+      l1 = temp;
+      temp = realloc(l2, size * sizeof(int));
+      if (!temp) exit(1);
+      l2 = temp;
+    }
+    l1[idx] = x;
+    l2[idx] = y;
+    idx++;
+  }
+  // sort
+  qsort(l1, size, sizeof(int), cmp);
+  qsort(l2, size, sizeof(int), cmp);
+
   // zip lists, accumulate difference
+  int ans = 0;
+  for (int i = 0; i < size; i++) {
+    ans += abs(l1[i] - l2[i]);
+  }
+
   // print result
+  printf("%d\n", ans);
+
+  // tidy
+  free(l1);
+  free(l2);
 }
