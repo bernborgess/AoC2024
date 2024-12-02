@@ -4,13 +4,14 @@
 --    created: 02.December.2024 08:20:15
 --
 
-import Data.List (sort)
+import Data.List (sort, transpose)
 
-getList :: IO [Int]
-getList = sort . map read . words <$> getLine
+solve :: String -> String
+solve input =
+  let ws = map (map read . words) (lines input)
+      [l1, l2] = map sort $ transpose ws
+      ans = sum $ map abs $ zipWith (-) l1 l2
+   in show ans
 
 main :: IO ()
-main = do
-  l1 <- getList
-  l2 <- getList
-  print $ sum $ map abs $ zipWith (-) l1 l2
+main = interact solve
