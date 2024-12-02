@@ -2,11 +2,11 @@
 clear
 
 # Haskell
-#ghc two.hs -o two.out
-#run=./two.out
+ghc two.hs -o two.out
+run=./two.out
 
 # Lean
-run="lean --run two.lean"
+#run="lean --run two.lean"
 
 # Python
 #run="python3 two.py"

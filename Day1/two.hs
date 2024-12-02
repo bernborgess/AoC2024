@@ -10,8 +10,8 @@ import Data.Map qualified as M
 tally :: [Int] -> M.Map Int Int
 tally [] = M.empty
 tally (x : xs) = case M.lookup x rm of
-  Nothing -> M.insert 1 x rm
-  (Just c) -> M.insert (c + 1) x rm
+  Nothing -> M.insert x 1 rm
+  (Just c) -> M.insert x (c + 1) rm
   where
     rm = tally xs
 
