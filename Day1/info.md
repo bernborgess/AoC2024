@@ -1,4 +1,4 @@
-# Advent of Code :cake:
+# Advent of Code :stars: 
 
 ## Day 1: Historian Hysteria
 
