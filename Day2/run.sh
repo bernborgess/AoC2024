@@ -4,9 +4,9 @@ GREEN="\033[0;32m"
 RED="\033[0;31m"
 DEFAULT="\033[0;0m"
 
-ghc safe.hs -o safe.out
-actual=$(./safe.out < sample.txt)
-expected="2"
+ghc tolerate.hs -o tolerate.out
+actual=$(./tolerate.out < sample.txt)
+expected="4"
 
 if [[ "$actual" == "$expected" ]]; then
     echo -e "${GREEN}PASS${DEFAULT}"
